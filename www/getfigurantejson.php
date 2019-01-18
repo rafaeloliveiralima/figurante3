@@ -20,6 +20,10 @@ $row = pg_fetch_array($res);
 $myObj->idfigurante = utf8_encode($row['idfigurante']);
 $myObj->nome= utf8_encode($row['nome']);
 $myObj->documento= utf8_encode($row['documento']);
+$myObj->blusa= utf8_encode($row['blusa']);
+$myObj->calca= utf8_encode($row['calca']);
+$myObj->sapato= utf8_encode($row['sapato']);
+$myObj->acessorio= utf8_encode($row['acessorio']);
 $myJSON = json_encode($myObj);
 
 echo $myJSON;

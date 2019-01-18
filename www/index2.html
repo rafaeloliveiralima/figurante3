@@ -204,10 +204,10 @@ li.lifooter a:hover:not(.active) {
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">	
 			<ul class="nav navbar-nav">
-			  <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+			  <li class="active"><a data-toggle="pill" href="#home"><span class="glyphicon glyphicon-home"></span> Gravação</a></li>
 			  <li class='hidden'><a data-toggle="pill" href="#novofigurante" >Novo Figurante</a></li>
-			  <li><a onclick='novofigurante()'>Novo Figurante</a></li>
-			  <li><a onclick='carregaatendimento(0,0)'>Cosultar</a></li>
+			  <li><a onclick='novofigurante()'><span class="glyphicon glyphicon-camera"></span> Novo Figurante</a></li>
+			  <li><a onclick='carregaatendimento(0,0)'><span class="glyphicon glyphicon-search"></span> Cosultar </a></li>
 			  <li class='hidden'><a data-toggle="pill" href="#conschamado">Cons. Chamado</a></li>
 			  <li class='hidden'><a data-toggle="pill" href="#consatendimento">Cons. Atendimento</a></li>
 			  <li class='hidden'><a data-toggle="pill" href="#consatendimentofiltro">Cons. Atendimento</a></li>
@@ -297,10 +297,10 @@ li.lifooter a:hover:not(.active) {
 				</div>
 				<form class="form-inline"> 
 				<div class="form-group">
-				<input  type="checkbox" name="blusa" value="S">Blusa 
-				<input  type="checkbox" name="calca" value="S">Calça 
-				<input  type="checkbox" name="sapato" value="S">Sapato 
-				<input  type="checkbox" name="acessorio" value="S">Acessórios
+				<input  type="checkbox" name="chboxblusa" id="chboxblusa" value="S">Blusa 
+				<input  type="checkbox" name="chboxcalca" id="chboxcalca" value="S">Calça 
+				<input  type="checkbox" name="chboxsapato" id="chboxsapato" value="S">Sapato 
+				<input  type="checkbox" name="chboxacessorio" id="chboxacessorio" value="S">Acessórios
 				</div>
 				</form>
 				
@@ -373,122 +373,10 @@ li.lifooter a:hover:not(.active) {
 		
 		<div id="mapa" class="tab-pane fade">
 			<div class="container">
-				<div id="map" style="width:100%;height:400px"></div>
 <script>
 
 var c = 0;
 
-
-
-function myMap(idchamado,latitude,longitude,div) {
-	
-   navigator.geolocation.getCurrentPosition(onSuccess, onError);
-   
-   function onSuccess(position) {
-       /* var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          +                                   position.timestamp          + '<br />';
-		*/					
-//	var mapCanvas = document.getElementById("map");
-	var mapCanvas = document.getElementById(div);
-	
-	if (latitude==0)
-	{
-		var mapOptions = {
-			center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude), zoom: 16
-		};
-		var myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-	}
-	else
-	{
-		var mapOptions = {
-			center: new google.maps.LatLng(latitude,longitude), zoom: 16
-		};
-		var myLatlng = new google.maps.LatLng(latitude,longitude);
-	}
-	
-	var map = new google.maps.Map(mapCanvas, mapOptions);
-	var kmlLayer = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});
-	var kmlLayer2 = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});		
-
-	if (latitude==0)
-	{
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:true,
-		title:""
-		});
-	}
-	else
-	{
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:false,
-		title:""
-		});
-	}
-
-// To add the marker to the map, call setMap();
-	marker.setMap(map);
-	
-	if (latitude==0)
-	{
-		google.maps.event.addListener(marker, 'dragend', function(marker){
-			var latLng = marker.latLng; 
-			currentLatitude = latLng.lat();
-			currentLongitude = latLng.lng();
-			
-			var r = confirm("Confirma localização?");
-			if (r == true) {
-				alteraLocalizacao(idchamado,currentLatitude,currentLongitude);
-				//carregaatendimento(0);
-			} else {
-				//carregaatendimento(0);
-			}
-			
-		 });
-	 
-		 google.maps.event.addListener(marker, 'click', function(marker){
-			var latLng = marker.latLng; 
-			currentLatitude = latLng.lat();
-			currentLongitude = latLng.lng();
-			
-			var r = confirm("Confirma localização?");
-			if (r == true) {
-				alteraLocalizacao(idchamado,currentLatitude,currentLongitude);
-				//carregaatendimento(0);
-			} else {
-				//carregaatendimento(0);
-			}
-			
-		 });
-	}
-							
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
-    }
-}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>
 			</div>
@@ -691,8 +579,8 @@ function myMap(idchamado,latitude,longitude,div) {
 		
 		function mostraMapa(idchamado)
 		{
-			$('#myNavbar a[href="#mapa"]').tab('show');
-			myMap(idchamado,0,0,'map');
+			//$('#myNavbar a[href="#mapa"]').tab('show');
+			//myMap(idchamado,0,0,'map');
 		}
 		
 		function novofigurante()
@@ -708,6 +596,10 @@ function myMap(idchamado,latitude,longitude,div) {
 				$('#myNavbar a[href="#novofigurante"]').tab('show');
 				document.getElementById('edtnome').value='';
 				document.getElementById('edtdocumento').value='';
+				document.getElementById('chboxacessorio').checked=false;
+				document.getElementById('chboxblusa').checked=false;
+				document.getElementById('chboxcalca').checked=false;
+				document.getElementById('chboxsapato').checked=false;
 				$(".botao").removeAttr("disabled");
 			}
 		
@@ -877,8 +769,32 @@ function myMap(idchamado,latitude,longitude,div) {
 				var nome = document.getElementById('edtnome2').value;
 				var documento = document.getElementById('edtdocumento2').value;
 				var idfigurante = document.getElementById('edtID').value;
+				
+				
+				var checkBoxblusa = document.getElementById("chboxblusa");
+				var checkBoxcalca = document.getElementById("chboxcalca");
+				var checkBoxsapato = document.getElementById("chboxsapato");
+				var checkBoxacessorio = document.getElementById("chboxacessorio");
+				
+			    var idgravacao = window.localStorage.getItem("idgravacao");
+
+
+				var params = "idgravacao="+idgravacao+"&op=A&id="+idfigurante+"&nome="+nome+"&documento="+documento;
+				// If the checkbox is checked, display the output text
+				if (checkBoxblusa.checked == true){
+					params = params + '&blusa=S';
+				}
+				if (checkBoxcalca.checked == true){
+					params = params + '&calca=S';
+				}
+				if (checkBoxsapato.checked == true){
+					params = params + '&sapato=S';
+				}
+				if (checkBoxacessorio.checked == true){
+					params = params + '&acessorio=S';
+				}
+				
 				//alert(codusuario);
-				var params = "op=A&id="+idfigurante+"&nome="+nome+"&documento="+documento;
                 var resultado = 0;
                 var xmlhttp = new XMLHttpRequest();
         		
@@ -929,8 +845,11 @@ function myMap(idchamado,latitude,longitude,div) {
 		
 		function salvarfigurante()
 		{
+			var idgravacao = window.localStorage.getItem("idgravacao");
 			if ((document.getElementById('edtnome').value=='') ||
-			(document.getElementById('edtdocumento').value=='') )
+			(document.getElementById('edtdocumento').value=='') ||
+			(idgravacao == '')
+			)
 			{
 				navigator.notification.alert(
 									'Verifique o preenchimento dos campos Solicitante, local e descrição.',  // message
@@ -954,7 +873,7 @@ function myMap(idchamado,latitude,longitude,div) {
 				var nome = document.getElementById('edtnome').value;
 				var documento = document.getElementById('edtdocumento').value;
 
-				var params = "op=I&nome="+nome+"&documento="+documento;
+				var params = "idgravacao="+idgravacao+"&op=I&nome="+nome+"&documento="+documento;
                 var resultado = 0;
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/exec.figurante.php?"+params,false);
@@ -997,6 +916,13 @@ function myMap(idchamado,latitude,longitude,div) {
 					var myObj = JSON.parse(this.responseText);
 					document.getElementById("edtnome2").value= myObj.nome;
 					document.getElementById("edtdocumento2").value = myObj.documento;
+					
+					if (myObj.blusa=='S')
+					{
+						document.getElementById("chboxblusa").checked=true;
+					}
+					
+					
 //document.getElementById("iframemapa").innerHTML='<img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=400x300&maptype=roadmap&markers=color:red%7Clabel:S%7C'+myObj.latitude+','+myObj.longitude+'">';
                 }
                 else if (xmlhttp.status == 404) {
@@ -1014,14 +940,15 @@ function myMap(idchamado,latitude,longitude,div) {
 	 
 		function getChamados(id,filtro)
 		{
-		 alert('getChamados');
-         var params = "idusuario="+id+"&filtro="+filtro;
+//		 alert('getChamados');
+		 var idgravacao = window.localStorage.getItem("idgravacao");
+         var params = "idgravacao="+idgravacao+"&idusuario="+id+"&filtro="+filtro;
                 var resultado = 0;
                 var xmlhttp = new XMLHttpRequest();
 				
                 xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/getfigurante.php?"+params,true);
                 xmlhttp.onload = function (){
-					alert(xmlhttp.status);
+					//alert(xmlhttp.status);
                     if (xmlhttp.status==200)
                         {
 						    var str = xmlhttp.responseText;
@@ -1054,11 +981,12 @@ function myMap(idchamado,latitude,longitude,div) {
                 var resultado = 0;
                 var xmlhttp = new XMLHttpRequest();
 				
-                xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/getfigurante.php?"+params,true);
+                xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/getgravacao.php?"+params,true);
                 xmlhttp.onload = function (){
                     if (xmlhttp.status==200)
                         {
 						    var str = xmlhttp.responseText;
+							//alert(str);
 							document.getElementById("chamados").innerHTML=str;
                         }
                     else if (xmlhttp.status == 404) {
@@ -1081,7 +1009,7 @@ function myMap(idchamado,latitude,longitude,div) {
             var resultado = 0;
             var xmlhttp = new XMLHttpRequest();
 				
-                xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/getfigurante.php?"+params,true);
+                xmlhttp.open("GET","http://www.tempustecnologia.com/acoes/getgravacao.php?"+params,true);
                 xmlhttp.onload = function (){
                     if (xmlhttp.status==200)
                         {
@@ -1134,6 +1062,12 @@ function myMap(idchamado,latitude,longitude,div) {
 		function alertDismissed() {
 
 		}
+		
+		function setGravacao(idgravacao)
+		{
+			window.localStorage.setItem("idgravacao",idgravacao);
+			carregaatendimento(0,0);
+		}
 
 		
 		function login()
@@ -1178,17 +1112,13 @@ function myMap(idchamado,latitude,longitude,div) {
 								//alert(res[0]);
 								var codusuario = res[0];
 								var username = res[1];
-								var idtiposuaurio = res[2];
-								var tiposuaurio = res[3];
-								var idsituacaousuario = res[4];
+								var idgravacao = 0;
 
 								window.localStorage.setItem("uname", username);
 								window.localStorage.setItem("idusuario",codusuario);
-								window.localStorage.setItem("idtipousuario",idtiposuaurio);
-								window.localStorage.setItem("tipousuario",tiposuaurio);
-								window.localStorage.setItem("idsituacaousuario",idsituacaousuario);
+								window.localStorage.setItem("idgravacao",idgravacao);
 								
-								document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+' ('+tiposuaurio+')</p>';
+								document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
 								
 								document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
 								document.getElementById('nome').value=window.localStorage.getItem("uname");
@@ -1226,10 +1156,7 @@ function myMap(idchamado,latitude,longitude,div) {
 							//alert(params);
                             //alert(xmlhttp.responseText);
 							//$('#myNavbar a[href="#home"]').tab('show');
-							if (idtiposuaurio<3)
-							{
-							    mostraChamadosParaAtender();
-							}
+						    mostraChamadosParaAtender();
 
                         }
                     else if (xmlhttp.status == 404) {

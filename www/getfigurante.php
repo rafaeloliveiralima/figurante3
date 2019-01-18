@@ -6,7 +6,8 @@ $conn = $conexao->Conectar();
 
 $operacao = $_REQUEST['op'];
 $filtro = $_REQUEST['filtro'];
-$sql = 'select * from figurante where idfigurante = idfigurante ';
+$idgravacao = $_REQUEST['idgravacao'];
+$sql = 'select * from figurante where idgravacao = '.$idgravacao;
 
 if (!empty($filtro))
 {
@@ -29,6 +30,7 @@ $dh = opendir($dir);
 				<thead>
 				  <tr>
 					<th>ID</th>
+					<th>Foto</th>
 					<th>Nome</th>
 					<th>Documento</th>
 				  </tr>
@@ -59,7 +61,8 @@ $dh = opendir($dir);
 					  
 					  ?>
 				  <tr >
-					<td><a onclick='carregaatendimento(<?php echo $row['idfigurante'];?>)'><?php echo $row['idfigurante'];?><br><?php echo $imagem;?></a></td>
+					<td><?php echo $row['idfigurante'];?></td>
+					<td><a onclick='carregaatendimento(<?php echo $row['idfigurante'];?>)'><?php echo $imagem;?></a></td>
 					<td style="text-transform: none"><a onclick='carregaatendimento(<?php echo $row['idfigurante'];?>)'>
 					<?php echo utf8_encode($row['nome']);?>
 					</a>

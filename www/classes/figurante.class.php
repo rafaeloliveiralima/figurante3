@@ -5,11 +5,20 @@ class Figurante
 	var $idfigurante;
 	var $nome;
 	var $documento;
+	var $blusa;
+	var $sapato;
+	var $calca;
+	var $acessorio;
 
 	function incluir()
 	{
- 		$sql = "insert into figurante (nome,documento) values (
-									'".$this->nome."','".$this->documento."')";
+ 		$sql = "insert into figurante (nome,documento,blusa,sapato,calca,acessorio) values (
+									'".$this->nome."','".$this->documento."'
+									,'".$this->blusa."'
+									,'".$this->sapato."'
+									,'".$this->calca."'
+									,'".$this->acessorio."'
+									)";
 									
 								
 		$resultado = pg_exec($this->conn,$sql);
@@ -28,7 +37,12 @@ class Figurante
 
 	function alterar($id)
 	{
-       	$sql = "update figurante set nome = '".$this->nome."', documento = '".$this->documento."'
+       	$sql = "update figurante set nome = '".$this->nome."'
+		, documento = '".$this->documento."'
+		, documento = '".$this->blusa."'
+		, documento = '".$this->sapato."'
+		, documento = '".$this->calca."'
+		, documento = '".$this->acessorio."'
 			 where idfigurante='".$id."' ";
 //			 echo $sql;
 		$resultado = pg_exec($this->conn,$sql);
@@ -60,6 +74,10 @@ class Figurante
 		   	$this->idfigurante = $row['idfigurante'];
 		   	$this->nome= $row['nome'];
 		   	$this->documento  = $row['documento'];
+		   	$this->blusa  = $row['blusa'];
+		   	$this->sapato  = $row['sapato'];
+		   	$this->calca  = $row['calca'];
+		   	$this->acessorio  = $row['acessorio'];
 	}
 
 	

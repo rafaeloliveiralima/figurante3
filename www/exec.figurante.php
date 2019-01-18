@@ -19,6 +19,7 @@ $id = $_REQUEST['id'];
 $idfigurante = $_REQUEST['idfigurante'];
 $nome = $_REQUEST['nome'];
 $documento = $_REQUEST['documento'];
+$idgravacao = $_REQUEST['idgravacao'];
 
 if (($operacao == 'I') || ($operacao == 'A')) {
 
@@ -29,6 +30,7 @@ if (($operacao == 'I') || ($operacao == 'A')) {
     $Classe->idchamado = $idchamado;
     $Classe->nome = pg_escape_string(utf8_decode(trim($nome)));
     $Classe->documento = pg_escape_string(utf8_decode(trim($documento)));
+    $Classe->idgravacao = trim($idgravacao);
 }
 
 if ($operacao == 'I') {
